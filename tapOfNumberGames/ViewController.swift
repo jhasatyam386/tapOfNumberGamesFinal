@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         progressForLoadingPlay.progress = 0.0
-        switchForDarkMode.isOn = false
+        switchForDarkMode.isOn = true
     }
     @IBAction func SwitchAction(_ sender: UISwitch) {
         if switchForDarkMode.isOn == true

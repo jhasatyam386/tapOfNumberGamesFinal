@@ -54,11 +54,16 @@ class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UIColl
     func showAlert(){
         let alert = UIAlertController(title: "Score", message: "\(scoreLabel.text)", preferredStyle: .alert)
         
+       
         alert.addAction(UIAlertAction.init(title: "game mode", style:.destructive, handler: { _ in
             self.navigationForHome()
         }))
         alert.addAction(UIAlertAction.init(title: "try Again", style:.destructive, handler:{ _ in
+            self.lifeLine1.image = UIImage(systemName: "heart.fill")
+            self.lifeLine2.image = UIImage(systemName: "heart.fill")
+            self.lifeLine3.image = UIImage(systemName: "heart.fill")
             self.collectionView.reloadData()
+            self.time.invalidate()
             self.progrss()
         } ))
        
@@ -85,24 +90,29 @@ class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UIColl
         if ans != arr[indexPath.item]{
             null = null + 1
             arr.shuffle()
-            showAlert()
             if null == 1{
+                arr.shuffle()
                 lifeLine1.image = UIImage(systemName: "heart" )
             }
             else if null == 2{
+                arr.shuffle()
                 lifeLine2.image = UIImage(systemName: "heart" )
 
             }
             else if null == 3{
+                arr.shuffle()
                 lifeLine3.image = UIImage(systemName: "heart" )
 
+                showAlert()
             }
             return
-        }
-        else{
-            showAlert()
-        }
         
+        }
+        null = 0
+        lifeLine1.image = UIImage(systemName: "heart.fill" )
+        lifeLine2.image = UIImage(systemName: "heart.fill" )
+        lifeLine3.image = UIImage(systemName: "heart.fill" )
+
         setData()
         plusScore()
         progrss()
