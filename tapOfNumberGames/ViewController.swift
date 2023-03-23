@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         progressForLoadingPlay.progress = 0.0
-        switchForDarkMode.isOn = true
+        switchForDarkMode.isOn = false
         
     }
     @IBAction func SwitchAction(_ sender: UISwitch) {
@@ -33,19 +33,7 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func userAccountButtonAction(_ sender: UIButton) {
-        var a : Float = 0.0
-        self.progressForLoadingPlay.progress = a
-        time = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { (_)in
-            a += 0.05
-            self.progressForLoadingPlay.progress = a
-            if self.progressForLoadingPlay.progress == 1.0{
-                self.time.invalidate()
-                self.navigations()
-            }
-        })
-        
-    }
+  
     @IBAction func playButtonAction(_ sender: UIButton) {
         
         var a : Float = 0.0
@@ -63,11 +51,6 @@ class ViewController: UIViewController {
         let navigation = storyboard?.instantiateViewController(withIdentifier: "ViewController2") as! ViewController2
         navigationController?.pushViewController(navigation, animated: true)
     }
-    func navigations(){
-        let navigations = storyboard?.instantiateViewController(withIdentifier: "ViewControllerUserAccount") as! ViewControllerUserAccount
-        navigationController?.pushViewController(navigations, animated: true)
-    }
-    
    
 }
 

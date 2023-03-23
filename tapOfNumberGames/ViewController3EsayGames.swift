@@ -1,22 +1,15 @@
-//
-//  ViewController3EsayGames.swift
-//  tapOfNumberGames
-//
-//  Created by R&W on 16/02/23.
-//
 
 import UIKit
 
 class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
-    var random = 0
-    var randomNumber = 0
-    
-    var Score = 0
-    var arrForCells : [Int] = []
     var time = Timer()
+    var Score = 0
     var freq = 0.20
-    var color : [UIColor] = [.yellow,.red,.green,.blue,.brown,.green,.yellow,.red,.green,.red,.yellow,.green,.yellow,.red,.green,.blue]
-    
+    var arr  = [11,1,2,0,78,12,13,46,59,99,88,78,55,49,39,79]
+    var ans = 0
+    var highScore = 0
+    var color : [UIColor] = [.yellow,.red,.green,.blue,.white,.brown,.gray,.systemCyan,.systemPink,.green,.systemRed,.systemCyan,.yellow,.red,.green,.blue]
+
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var progressTimeFromGameEnd: UIProgressView!
     
@@ -26,74 +19,49 @@ class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UIColl
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        scoreLabel.text = "0"
         progrss()
-        for _ in 0..<1{
-            let random = Int.random(in: 1...100)
-            arrRandomNumber.append(random)
-        }
-        for _ in 0..<16{
-            let randomNumber = Int.random(in: 1...100)
-            arrForCells.append(randomNumber)
-        }
-        print(arrRandomNumber)
-        print(arrForCells)
-        tapNumber.text = "tap on \(arrRandomNumber)"
-        tapNumber.text = "tap on\(arrForCells.randomElement())"
+        setData()
+        highscoreAlert()
     }
-    func progrss()
-    {
-       
+    func setData(){
+        ans = [11,1,2,0,78,12,13,46,59,99,88,78,55,49,39,79].randomElement()!
+        tapNumber.text = "\(ans)"
+        arr.shuffle()
+        collectionView.reloadData()
+    }
+    func progrss(){
+        time.invalidate()
         var randomTime : Float = 1.0
         self.progressTimeFromGameEnd.progress = randomTime
         time = Timer.scheduledTimer(withTimeInterval: 0.10, repeats: true, block: { (_)in
         randomTime -= 0.02
+            
         self.progressTimeFromGameEnd.progress = randomTime
         if self.progressTimeFromGameEnd.progress == 0.0{
-            self.time.invalidate()
             self.showAlert()
+            self.time.invalidate()
         }
     })
     }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! myCollectionViewCell
-        
-     
-        if tapNumber.text == cell.label1.text{
-
-            plus()
-           // showAlert()
-            //progrss()
-            collectionView.reloadData()
-        }
-        else {
-            minus()
-           // progrss()
-            collectionView.reloadData()
-        }
-    }
-    func plus(){
+    func plusScore(){
         Score = Score + 1
         scoreLabel.text = "\(Score)"
-        time.invalidate()
-        progrss()
-    }
-    func minus(){
-        Score = Score + 1
-        scoreLabel.text = "\(Score)"
-        time.invalidate()
         progrss()
     }
     func showAlert(){
-        let alert = UIAlertController(title: "Game Over", message: "Tap of Number", preferredStyle: .alert)
+        let alert = UIAlertController(title: " Score", message: "\(scoreLabel.text)", preferredStyle: .alert)
+      
        
-        alert.addAction(UIAlertAction.init(title: "Home", style:.default, handler: { _ in
+        alert.addAction(UIAlertAction.init(title: "game mode", style:.destructive, handler: { _ in
             self.navigationForHome()
         }))
-        alert.addAction(UIAlertAction.init(title: "try Again", style:.default, handler:{ _ in
-            self.navigationForGames()  } ))
-        alert.addAction(UIAlertAction.init(title: "Cancel", style: .destructive, handler: nil))
+        alert.addAction(UIAlertAction.init(title: "try Again", style:.destructive, handler:{ _ in
+            self.collectionView.reloadData()
+            self.progrss()
+        } ))
+       
         present(alert, animated: true, completion: nil)
-        
     }
     func navigationForHome(){
         let navigation = storyboard?.instantiateViewController(withIdentifier: "ViewController2") as! ViewController2
@@ -103,23 +71,37 @@ class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UIColl
         let navigation = storyboard?.instantiateViewController(withIdentifier: "ViewController3EsayGames") as! ViewController3EsayGames
         navigationController?.pushViewController(navigation, animated: true)
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! myCollectionViewCell
-        cell.label1.text = "\(arrForCells[indexPath.row])"
-
+        cell.label1.text = "\(arr[indexPath.row])"
         cell.backgroundColor = color[indexPath.row]
         cell.layer.cornerRadius = 20
         cell.layer.masksToBounds = true
-        cell.layer.borderColor = UIColor.red.cgColor
+        cell.layer.borderColor = UIColor.white.cgColor
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if ans != arr[indexPath.item]{
+            arr.shuffle()
+            showAlert()
+            return
+        }
+        setData()
+        plusScore()
+        progrss()
+    
+    }
+    func highscoreAlert(){
+      
+        
+    }
+    
+   
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
      
-        return arrForCells.count
+        return 16
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 80)
     }
-  
 }

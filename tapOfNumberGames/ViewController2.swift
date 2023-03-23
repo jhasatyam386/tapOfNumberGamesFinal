@@ -23,6 +23,7 @@ class ViewController2: UIViewController {
     }
     
     
+    
     @IBAction func easyGameButtonAction(_ sender: UIButton) {
         
         

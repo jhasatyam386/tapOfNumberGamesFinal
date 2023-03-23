@@ -10,6 +10,6 @@ import UIKit
 class myCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var label1: UILabel!
-    
+
    
 }
