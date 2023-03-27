@@ -3,13 +3,16 @@ import UIKit
 
 class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     var time = Timer()
+    var null = 0
     var Score = 0
     var freq = 0.20
     var arr  = [11,1,2,0,78,12,13,46,59,99,88,78,55,49,39,79]
     var ans = 0
-    var highScore = 0
     var color : [UIColor] = [.yellow,.red,.green,.blue,.white,.brown,.gray,.systemCyan,.systemPink,.green,.systemRed,.systemCyan,.yellow,.red,.green,.blue]
 
+    @IBOutlet weak var lifeLine1: UIImageView!
+    @IBOutlet weak var lifeLine2: UIImageView!
+    @IBOutlet weak var lifeLine3: UIImageView!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var progressTimeFromGameEnd: UIProgressView!
     
@@ -22,7 +25,6 @@ class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UIColl
         scoreLabel.text = "0"
         progrss()
         setData()
-        highscoreAlert()
     }
     func setData(){
         ans = [11,1,2,0,78,12,13,46,59,99,88,78,55,49,39,79].randomElement()!
@@ -50,9 +52,8 @@ class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UIColl
         progrss()
     }
     func showAlert(){
-        let alert = UIAlertController(title: " Score", message: "\(scoreLabel.text)", preferredStyle: .alert)
-      
-       
+        let alert = UIAlertController(title: "Score", message: "\(scoreLabel.text)", preferredStyle: .alert)
+        
         alert.addAction(UIAlertAction.init(title: "game mode", style:.destructive, handler: { _ in
             self.navigationForHome()
         }))
@@ -82,20 +83,32 @@ class ViewController3EsayGames: UIViewController,UICollectionViewDelegate,UIColl
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if ans != arr[indexPath.item]{
+            null = null + 1
             arr.shuffle()
             showAlert()
+            if null == 1{
+                lifeLine1.image = UIImage(systemName: "heart" )
+            }
+            else if null == 2{
+                lifeLine2.image = UIImage(systemName: "heart" )
+
+            }
+            else if null == 3{
+                lifeLine3.image = UIImage(systemName: "heart" )
+
+            }
             return
         }
+        else{
+            showAlert()
+        }
+        
         setData()
         plusScore()
         progrss()
     
     }
-    func highscoreAlert(){
-      
-        
-    }
-    
+   
    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
      

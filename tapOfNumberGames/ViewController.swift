@@ -18,7 +18,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         progressForLoadingPlay.progress = 0.0
         switchForDarkMode.isOn = false
-        
     }
     @IBAction func SwitchAction(_ sender: UISwitch) {
         if switchForDarkMode.isOn == true
@@ -35,7 +34,6 @@ class ViewController: UIViewController {
 
   
     @IBAction func playButtonAction(_ sender: UIButton) {
-        
         var a : Float = 0.0
         self.progressForLoadingPlay.progress = a
         time = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { (_)in
